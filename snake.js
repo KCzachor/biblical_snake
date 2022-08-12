@@ -149,10 +149,10 @@ function draw()
 
 document.addEventListener("keyup", (element)=>{
     //alert(element.code)
-    if(element.code == "ArrowLeft") direction="l"
-    else if(element.code == "ArrowRight") direction="r"
-    else if(element.code == "ArrowUp") direction="u"
-    else if(element.code == "ArrowDown") direction="d"
+    if(element.code == "ArrowLeft" && direction!="r") direction="l"
+    else if(element.code == "ArrowRight" && direction!="l") direction="r"
+    else if(element.code == "ArrowUp" && direction!="d") direction="u"
+    else if(element.code == "ArrowDown" && direction!="u") direction="d"
 })
 
 function newApple()
