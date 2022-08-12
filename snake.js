@@ -41,7 +41,8 @@ const snSpeed = 50
 //colors
 const snHeadColor = "rgb(0, 0, 50)"
 const snTailColor = "rgb(0, 0, 150)"
-const appleColor = "rgb(250, 0, 0)"
+const trueAppleColor = "rgb(6, 91, 9)"
+const falseAppleColor = "rgb(250, 0, 0)"
 
 let snHeadX = 300
 let snHeadY = 100
@@ -53,8 +54,11 @@ let longOfTail=3
 let snBodyX = []
 let snBodyY = []
 
-let appleX //= Math.floor(Math.random()*10%10)*50
-let appleY //= Math.floor(Math.random()*10%10)*50
+let trueAppleX //= Math.floor(Math.random()*10%10)*50
+let trueAppleY //= Math.floor(Math.random()*10%10)*50
+
+let falseAppleX 
+let falseAppleY
 
 newApple()
 //console.log(appleX)
@@ -109,15 +113,18 @@ let timer = setInterval(() => {
 		snHeadY<0 || snHeadY>=height ||
 		bittedTail)
 	{
-		clearInterval(timer)
-		alert("koniec gry")
+		eatApple("wall")
 	}
 
 
-	if(snHeadX==appleX && snHeadY==appleY)
+	if(snHeadX==trueAppleX && snHeadY==trueAppleY)
 	{
-		longOfTail++
-		newApple()
+		eatApple("true")
+	}
+
+	if(snHeadX==falseAppleX && snHeadY==falseAppleY)
+	{
+		eatApple("false")
 	}
 
 	draw()
@@ -140,10 +147,13 @@ function draw()
 	for(let i=1; i<=longOfTail; i++)
 		ctx.fillRect(snBodyX[i], snBodyY[i], snWidth, snHeight)
 	
-	//apple	
-	ctx.fillStyle = appleColor
-	ctx.fillRect(appleX, appleY, snWidth, snHeight)
-		
+	//apples	
+	ctx.fillStyle = trueAppleColor
+	ctx.fillRect(trueAppleX, trueAppleY, snWidth, snHeight)
+	
+	ctx.fillStyle = falseAppleColor
+	ctx.fillRect(falseAppleX, falseAppleY, snWidth, snHeight)
+	
 
 }
 
@@ -161,15 +171,57 @@ function newApple()
 	do
 	{
 		badPosition = false
-		appleX = Math.floor(Math.random()*10%10)*50
-		appleY = Math.floor(Math.random()*10%10)*50
-		if(appleX==snHeadX && appleX==snHeadY)
+		trueAppleX = Math.floor(Math.random()*10%10)*50
+		trueAppleY = Math.floor(Math.random()*10%10)*50
+		if(trueAppleX==snHeadX && trueAppleX==snHeadY)
 			badPosition=true
 
 		for(let i=1; i<=longOfTail; i++)
-			if(appleX==snBodyX[i] && appleY==snBodyY[i])
+			if(trueAppleX==snBodyX[i] && trueAppleY==snBodyY[i])
 				badPosition=true	
 		
 	} while(badPosition)
 
+	do
+	{
+		badPosition = false
+		falseAppleX = Math.floor(Math.random()*10%10)*50
+		falseAppleY = Math.floor(Math.random()*10%10)*50
+		if(falseAppleX==snHeadX && falseAppleX==snHeadY)
+			badPosition=true
+
+		if(falseAppleX==trueAppleX && falseAppleX==trueAppleY)
+			badPosition=true
+
+		for(let i=1; i<=longOfTail; i++)
+			if(falseAppleX==snBodyX[i] && falseAppleY==snBodyY[i])
+				badPosition=true	
+		
+	} while(badPosition)
 }
+
+function eatApple(ans)
+{
+	if(ans==questions[longOfTail-3].answer)
+	{
+		longOfTail++
+		if(longOfTail-3 < questions.length)
+		{
+			newApple()
+		}
+		else
+		{
+			clearInterval(timer)
+			alert("Gratulacje wygrałeś!")
+		}
+		
+	}
+	else
+	{
+		clearInterval(timer)
+		alert("koniec gry")
+	}
+	
+}
+
+
