@@ -1,5 +1,30 @@
-const canvas = document.querySelector('#snGame');
-const ctx = canvas.getContext('2d');
+//import { question } from './question.js'
+
+const questions = 
+    [
+        {
+            "id": "0",
+            "quest": "2 + 2 = 4",
+            "answer": "true"
+        },
+        {
+            "id": "1",
+            "quest": "2 - 2 = 4",
+            "answer": "false"
+        },
+        {
+            "id": "2",
+            "quest": "1 * 2 = 4",
+            "answer": "false"
+        }
+    ]
+
+//console.log(question)
+
+const canvas = document.querySelector('#snGame')
+const ctx = canvas.getContext('2d')
+const question = document.querySelector("#question")
+
 
 canvas.width="500" 
 canvas.height="500"
@@ -48,6 +73,9 @@ window.addEventListener("load", draw)
 let timer = setInterval(() => {
     //alert("działa")
    
+	
+
+
 	for(let i=longOfTail; i>=2; i--)
 	{
 		snBodyX[i] = snBodyX[i-1]
@@ -95,7 +123,8 @@ let timer = setInterval(() => {
 	draw()
 
 	document.querySelector("#points").innerHTML=longOfTail-3
-    
+    question.innerHTML = questions[longOfTail-3].quest
+
 }, 1000)
 
 function draw()
