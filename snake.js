@@ -44,6 +44,15 @@ const snTailColor = "rgb(0, 0, 150)"
 const trueAppleColor = "rgb(6, 91, 9)"
 const falseAppleColor = "rgb(250, 0, 0)"
 
+const headImage = new Image()
+headImage.src = "./img/rHead.png"
+
+const trueAppleImage = new Image()
+trueAppleImage.src= "./img/trueApple.png"
+
+const falseAppleImage = new Image()
+falseAppleImage.src= "./img/falseApple.png"
+
 let snHeadX = 300
 let snHeadY = 100
 
@@ -140,19 +149,23 @@ function draw()
     ctx.fillRect(0, 0, width, height)
 
 	//snake
-    ctx.fillStyle = snHeadColor
-    ctx.fillRect(snHeadX, snHeadY, snWidth, snHeight)
+    //ctx.fillStyle = snHeadColor
+    //ctx.fillRect(snHeadX, snHeadY, snWidth, snHeight)
+	ctx.drawImage(headImage, snHeadX, snHeadY)
 	
 	ctx.fillStyle = snTailColor
 	for(let i=1; i<=longOfTail; i++)
 		ctx.fillRect(snBodyX[i], snBodyY[i], snWidth, snHeight)
+		
+
+	//apples
+	ctx.drawImage(trueAppleImage, trueAppleX, trueAppleY)
+	ctx.drawImage(falseAppleImage, falseAppleX, falseAppleY)	
+	//ctx.fillStyle = trueAppleColor
+	//ctx.fillRect(trueAppleX, trueAppleY, snWidth, snHeight)
 	
-	//apples	
-	ctx.fillStyle = trueAppleColor
-	ctx.fillRect(trueAppleX, trueAppleY, snWidth, snHeight)
-	
-	ctx.fillStyle = falseAppleColor
-	ctx.fillRect(falseAppleX, falseAppleY, snWidth, snHeight)
+	//ctx.fillStyle = falseAppleColor
+	//ctx.fillRect(falseAppleX, falseAppleY, snWidth, snHeight)
 	
 
 }
@@ -163,6 +176,9 @@ document.addEventListener("keyup", (element)=>{
     else if(element.code == "ArrowRight" && direction!="l") direction="r"
     else if(element.code == "ArrowUp" && direction!="d") direction="u"
     else if(element.code == "ArrowDown" && direction!="u") direction="d"
+
+	headImage.src="./img/"+direction+"Head.png"
+	console.log(headImage.src)
 })
 
 function newApple()
